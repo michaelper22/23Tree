@@ -61,6 +61,13 @@ class Tree{
 				spot->child2 = spot->child1;
 				spot->child1 = new Node(spot, data);
 			}
+		
+		// Case 2: Spot has 2 children
+		if(spot->child1 != NULL && spot->child2 != NULL && spot->child3 == NULL)
+			if(spot->child2->key2 <= data)
+				spot->child3 = new Node(spot, data);
+			if(spot->child1 > data
+				
 		}
 			
 	}//insert()
