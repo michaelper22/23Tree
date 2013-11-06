@@ -78,7 +78,7 @@ class Tree{
 		else if((data >= currentNode->key1 && data > currentNode->key2) || currentNode->key2 == -1)
 			return findSpot(currentNode->child2, data);
 		
-		else if(data >= currentNode->key2 && key2 == -1)
+		else if(data >= currentNode->key2 && currentNode->key2 == -1)
 			return findSpot(currentNode->child3, data);
 	}//findSpot()
 };//Tree class
