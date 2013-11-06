@@ -35,8 +35,8 @@ class Tree{
 		root = newRoot;
 	}//Tree()
 	
-	void insert(Node* insertNode){
-	
+	void insert(int data){
+		Node* spot = findSpot(root, data);
 	}//insert()
 	
 	void printTree(Node* nodeToPrint){
@@ -44,8 +44,19 @@ class Tree{
 	}
 	
 	private:
-	Node* findSpot(data){
-	
+	Node* findSpot(Node* currentNode, int data){
+		if(currentNode->child1->key1 == -1)
+			return currentNode;
+		
+		else if(data < currentNode->key1)
+			return findSpot(currentNode->child1, data);
+		
+		else if((data >= currentNode->key1 && data > currentNode->key2) || currentNode->key2 == -1)
+			return findSpot(currentNode->child2, data);
+		
+		else if(data >= currentNode->key2 && key2 == -1)
+			return findSpot(currentNode->child3, data);
+			
 	}
 	
 };//Tree class
