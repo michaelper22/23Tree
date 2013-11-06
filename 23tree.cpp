@@ -41,8 +41,8 @@ class Tree{
 	
 	Node* root;
 	
-	Tree(Node* newRoot){
-		root = newRoot;
+	Tree(){
+		root = new Node(NULL, -1, -1, NULL, NULL, NULL);
 	}//Tree()
 	
 	void insert(int data){
@@ -120,6 +120,31 @@ class Tree{
 };//Tree class
 
 int main(){
-
+	fstream infile;
+	infile.open("infile.txt", fstream::in);
+	
+	if(!infile.is_open()){
+		cout << "Error opening infile1.txt, quitting." << endl;
+		return 0;
+	}//if
+	
+	fstream outfile;
+	outfile.open("outfile.txt", fstream::out | fstream::trunc);
+	
+	if (!outfile.is_open()) {
+		cout << "Error opening outfile.txt, quitting." << endl;
+		return 0;
+	}//if
+	
+	Tree tree = new Tree();
+	
+	while(!infile.eof()){
+		int input;
+		infile >> input;
+		
+	}//while
+		
+	
+	
 	return 0;
 }
