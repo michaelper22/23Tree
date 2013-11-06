@@ -30,9 +30,36 @@ class Node{
 	}//Node()
 	
 	void printNode(fstream& outstream){
-		outstream << "(parent = " << parent << ", key1 = " << key1;
-		outstream << ", key2 = " << key2 << ", child1 = " << child1;
-		outstream << ", child2 = " << child2 << ", child3 = " << child3 << endl;
+		outstream << "(parent = ";
+		
+		if(parent!=NULL)
+			outstream << parent->key1;
+		else
+			outstream << "0";
+		
+		outstream << ", key1 = " << key1;
+		outstream << ", key2 = " << key2 << ", child1 = ";
+		
+		if(child1 != NULL)
+			outstream << child1->key1;
+		else 
+			outstream << "-1";
+		
+		outstream << ", child2 = ";
+		
+		if(child2 != NULL)
+			outstream << child2->key1;
+		else	
+			outstream << "-1";
+		
+		outstream << ", child3 = ";
+		
+		if(child3 != NULL)
+			outstream << child2->key1;
+		else	
+			outstream << "-1";
+		
+		outstream << ")" << endl;
 	}//printNode()
 };//Node class
 
@@ -46,24 +73,28 @@ class Tree{
 	}//Tree()
 	
 	void insert(int data){
+		cout << "In insert()" << endl;
 		Node* spot = findSpot(root, data);
+		cout << "found spot" << endl;
 		
 		
 		// Case 0: Spot has 0 children
-		if(spot->child1 == NULL && spot->child2 == NULL && spot->child3 == NULL)
-			spot->child1 = new Node(spot, data);
+		if(spot->child1 == NULL && spot->child2 == NULL && spot->child3 == NULL){
+			spot->child1 = new Node(spot, data);			
+		}
 			
 		// Case 1: Spot has 1 child
-		if(spot->child1 != NULL && spot->child2 == NULL && spot->child3 == NULL){
+		else if(spot->child1 != NULL && spot->child2 == NULL && spot->child3 == NULL){
 			if(spot->child1->key2 <= data)
 				spot->child2 = new Node(spot, data);
 			else {
 				spot->child2 = spot->child1;
 				spot->child1 = new Node(spot, data);
 			}
+		}
 		
 		// Case 2: Spot has 2 children
-		if(spot->child1 != NULL && spot->child2 != NULL && spot->child3 == NULL){
+		else if(spot->child1 != NULL && spot->child2 != NULL && spot->child3 == NULL){
 			// Modified bubble sort from beginning of semester
 			// to put children in ascending order
 			int children[3] = {spot->child1->key2, spot->child2->key2, data};
@@ -73,11 +104,11 @@ class Tree{
 				swapflag=0;
 				walker=begin;		
 				while(walker < end){
-					if(array[walker] > array[walker+1]){
+					if(children[walker] > children[walker+1]){
 						//swap
-						int temp=array[walker];
-						array[walker]=array[walker+1];
-						array[walker+1]=temp;
+						int temp=children[walker];
+						children[walker]=children[walker+1];
+						children[walker+1]=temp;
 						swapflag++;
 						walker++;
 					}//if
@@ -96,16 +127,16 @@ class Tree{
 		if(nodeToPrint==NULL)
 			return;
 		else{
-			nodeToPrint.printNode(outstream);
+			nodeToPrint->printNode(outstream);
 			printTree(nodeToPrint->child1, outstream);
 			printTree(nodeToPrint->child2, outstream);
 			printTree(nodeToPrint->child3, outstream);
 		}//else
 	}//printTree()
 	
-	private:
 	Node* findSpot(Node* currentNode, int data){
-		if(currentNode->child1->key1 == -1)
+		cout << "in findSpot()" << endl;
+		if(currentNode->child1 == NULL || currentNode->child1->key1 == -1)
 			return currentNode;
 		
 		else if(data < currentNode->key1)
@@ -124,7 +155,7 @@ int main(){
 	infile.open("infile.txt", fstream::in);
 	
 	if(!infile.is_open()){
-		cout << "Error opening infile1.txt, quitting." << endl;
+		cout << "Error opening infile.txt, quitting." << endl;
 		return 0;
 	}//if
 	
@@ -136,15 +167,15 @@ int main(){
 		return 0;
 	}//if
 	
-	Tree tree = new Tree();
+	Tree* tree = new Tree();
 	
 	while(!infile.eof()){
 		int input;
 		infile >> input;
-		
+		tree->insert(input);
+		cout << "Calling printTree()" << endl;
+		tree->printTree(tree->root, outfile);
 	}//while
-		
-	
 	
 	return 0;
 }
