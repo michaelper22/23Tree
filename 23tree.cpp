@@ -30,7 +30,9 @@ class Node{
 	}//Node()
 	
 	void printNode(){
-	
+		cout << "(parent = " << parent << ", key1 = " << key1;
+		cout << ", key2 = " << key2 << ", child1 = " << child1;
+		cout << ", child2 = " << child2 << ", child3 = " << child3 << endl;
 	}//printNode()
 };//Node class
 
@@ -83,3 +85,7 @@ class Tree{
 	}//findSpot()
 };//Tree class
 
+int main(){
+	
+	return 0;
+}
