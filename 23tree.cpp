@@ -29,10 +29,10 @@ class Node{
 		key2 = data;
 	}//Node()
 	
-	void printNode(){
-		cout << "(parent = " << parent << ", key1 = " << key1;
-		cout << ", key2 = " << key2 << ", child1 = " << child1;
-		cout << ", child2 = " << child2 << ", child3 = " << child3 << endl;
+	void printNode(fstream& outstream){
+		outstream << "(parent = " << parent << ", key1 = " << key1;
+		outstream << ", key2 = " << key2 << ", child1 = " << child1;
+		outstream << ", child2 = " << child2 << ", child3 = " << child3 << endl;
 	}//printNode()
 };//Node class
 
@@ -63,18 +63,45 @@ class Tree{
 			}
 		
 		// Case 2: Spot has 2 children
-		if(spot->child1 != NULL && spot->child2 != NULL && spot->child3 == NULL)
-			if(spot->child2->key2 <= data)
-				spot->child3 = new Node(spot, data);
-			if(spot->child1 > data
-				
-		}
-			
+		if(spot->child1 != NULL && spot->child2 != NULL && spot->child3 == NULL){
+			// Modified bubble sort from beginning of semester
+			// to put children in ascending order
+			int children[3] = {spot->child1->key2, spot->child2->key2, data};
+			int begin=0, end=2, swapflag=1, walker;
+
+			while(end>begin && swapflag>0){
+				swapflag=0;
+				walker=begin;		
+				while(walker < end){
+					if(array[walker] > array[walker+1]){
+						//swap
+						int temp=array[walker];
+						array[walker]=array[walker+1];
+						array[walker+1]=temp;
+						swapflag++;
+						walker++;
+					}//if
+					end--;
+				}//while
+			}//while
+			spot->child1->key2 = children[0];
+			spot->child2->key2 = children[1];
+			spot->child3->key2 = children[2];
+		}//if
+		// Case 3: Spot has 3 children
+		// code to come
 	}//insert()
 	
-	void printTree(Node* nodeToPrint){
-		
-	}
+	void printTree(Node* nodeToPrint, fstream& outstream){
+		if(nodeToPrint==NULL)
+			return;
+		else{
+			nodeToPrint.printNode(outstream);
+			printTree(nodeToPrint->child1, outstream);
+			printTree(nodeToPrint->child2, outstream);
+			printTree(nodeToPrint->child3, outstream);
+		}//else
+	}//printTree()
 	
 	private:
 	Node* findSpot(Node* currentNode, int data){
@@ -93,6 +120,6 @@ class Tree{
 };//Tree class
 
 int main(){
-	
+
 	return 0;
 }
