@@ -95,9 +95,11 @@ class Tree{
 		
 		// Case 2: Spot has 2 children
 		else if(spot->child1 != NULL && spot->child2 != NULL && spot->child3 == NULL){
+			cout << "Evaluated case 2" << endl;
 			// Modified bubble sort from beginning of semester
 			// to put children in ascending order
 			int children[3] = {spot->child1->key2, spot->child2->key2, data};
+			cout << "Created array" << endl;
 			int begin=0, end=2, swapflag=1, walker;
 
 			while(end>begin && swapflag>0){
@@ -115,16 +117,19 @@ class Tree{
 					end--;
 				}//while
 			}//while
+			cout << "Finished sorting" << endl;
 			spot->child1->key2 = children[0];
 			spot->child2->key2 = children[1];
-			spot->child3->key2 = children[2];
+			cout << "Finished assigning children 1-2" << endl;
+			spot->child3 = new Node(spot, children[2]);
+			cout << "Finished assigning child3" << endl;
 		}//if
 		// Case 3: Spot has 3 children
 		// code to come
 	}//insert()
 	
 	void printTree(Node* nodeToPrint, fstream& outstream){
-		if(nodeToPrint==NULL)
+		if(nodeToPrint==NULL)			
 			return;
 		else{
 			nodeToPrint->printNode(outstream);
@@ -175,6 +180,7 @@ int main(){
 		tree->insert(input);
 		cout << "Calling printTree()" << endl;
 		tree->printTree(tree->root, outfile);
+		outfile << "--------" << endl;
 	}//while
 	
 	return 0;
