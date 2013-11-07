@@ -72,6 +72,37 @@ class Tree{
 		root = new Node(NULL, -1, -1, NULL, NULL, NULL);
 	}//Tree()
 	
+	void updateKeys(Node* spot){
+		if(spot->child2 != NULL && spot->child2->key1 == -1){
+			spot->key1 = spot->child2->key2;
+		}
+		else if(spot->child2 == NULL) {
+			spot->key1 = -1;
+		}
+		else if(spot->child2 != NULL && spot->child2->key1 != -1){
+			Node* p = spot->child2;
+			while(p->key1 != -1){
+				p = p->child1;
+			}
+			spot->key1 = p->key2;
+		}
+		
+		if(spot->child3 != NULL && spot->child3->key1 == -1){
+			spot->key2 = spot->child3->key2;
+		}
+		else if(spot->child3 == NULL){
+			spot->key2 = -1;
+		}
+		else if(spot->child3 != NULL && spot->child3->key1 != -1){
+			Node* p = spot->child3;
+			while(p->key1 != -1){
+				p = p->child1;
+			}
+			spot->key2 = p->key2;
+		}
+			
+	}//updateKeys()
+	
 	void insert(int data){
 		cout << "In insert()" << endl;
 		Node* spot = findSpot(root, data);
