@@ -73,49 +73,46 @@ class Tree{
 	}//Tree()
 	
 	void updateKeys(Node* spot){
+		// If we're past the root of the tree (this function traverses up the tree),
+		// we are done
 		if(spot==NULL)
 			return;
 			
-		if(spot->child2 != NULL && spot->child2->key1 == -1){
+		if(spot->child2 != NULL && spot->child2->key1 == -1)
 			spot->key1 = spot->child2->key2;
-		}
-		else if(spot->child2 == NULL) {
+
+		else if(spot->child2 == NULL)
 			spot->key1 = -1;
-		}
+
 		else if(spot->child2 != NULL && spot->child2->key1 != -1){
+			//Find the smallest node in the second subtree
 			Node* p = spot->child2;
-			while(p->key1 != -1){
+			while(p->key1 != -1)
 				p = p->child1;
-			}
 			spot->key1 = p->key2;
-		}
+		}//else if
 		
-		if(spot->child3 != NULL && spot->child3->key1 == -1){
+		if(spot->child3 != NULL && spot->child3->key1 == -1)
 			spot->key2 = spot->child3->key2;
-		}
-		else if(spot->child3 == NULL){
+
+		else if(spot->child3 == NULL)
 			spot->key2 = -1;
-		}
+
 		else if(spot->child3 != NULL && spot->child3->key1 != -1){
 			Node* p = spot->child3;
-			while(p->key1 != -1){
-				p = p->child1;
-			}
+			while(p->key1 != -1)
+				p = p->child1; //while
 			spot->key2 = p->key2;
-		}
+		}//else if
 		updateKeys(spot->parent);	
 	}//updateKeys()
 	
 	void insert(int data){
-		cout << "In insert()" << endl;
 		Node* spot = findSpot(root, data);
-		cout << "found spot" << endl;
-		
-		
+
 		// Case 0: Spot has 0 children
-		if(spot->child1 == NULL && spot->child2 == NULL && spot->child3 == NULL){
-			spot->child1 = new Node(spot, data);			
-		}
+		if(spot->child1 == NULL && spot->child2 == NULL && spot->child3 == NULL)
+			spot->child1 = new Node(spot, data);
 			
 		// Case 1: Spot has 1 child
 		else if(spot->child1 != NULL && spot->child2 == NULL && spot->child3 == NULL){
@@ -124,16 +121,15 @@ class Tree{
 			else {
 				spot->child2 = spot->child1;
 				spot->child1 = new Node(spot, data);
-			}
-		}
+			}//else
+		}//else if
 		
 		// Case 2: Spot has 2 children
 		else if(spot->child1 != NULL && spot->child2 != NULL && spot->child3 == NULL){
-			cout << "Evaluated case 2" << endl;
 			// Modified bubble sort from beginning of semester
 			// to put children in ascending order
+			// It's O(n^2), but we only have 4 items max
 			int children[3] = {spot->child1->key2, spot->child2->key2, data};
-			cout << "Created array" << endl;
 			int begin=0, end=2, swapflag=1, walker;
 
 			while(end>begin && swapflag>0){
@@ -151,12 +147,9 @@ class Tree{
 					end--;
 				}//while
 			}//while
-			cout << "Finished sorting" << endl;
 			spot->child1->key2 = children[0];
 			spot->child2->key2 = children[1];
-			cout << "Finished assigning children 1-2" << endl;
 			spot->child3 = new Node(spot, children[2]);
-			cout << "Finished assigning child3" << endl;
 		}//if
 		// Case 3: Spot has 3 children
 		// code to come
@@ -177,7 +170,6 @@ class Tree{
 	}//printTree()
 	
 	Node* findSpot(Node* currentNode, int data){
-		cout << "in findSpot()" << endl;
 		if(currentNode->child1 == NULL || currentNode->child1->key1 == -1)
 			return currentNode;
 		
@@ -215,10 +207,9 @@ int main(){
 		int input;
 		infile >> input;
 		tree->insert(input);
-		cout << "Calling printTree()" << endl;
 		tree->printTree(tree->root, outfile);
 		outfile << "--------" << endl;
 	}//while
 	
 	return 0;
-}
+}//main()
