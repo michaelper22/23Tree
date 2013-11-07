@@ -73,6 +73,9 @@ class Tree{
 	}//Tree()
 	
 	void updateKeys(Node* spot){
+		if(spot==NULL)
+			return;
+			
 		if(spot->child2 != NULL && spot->child2->key1 == -1){
 			spot->key1 = spot->child2->key2;
 		}
@@ -100,7 +103,7 @@ class Tree{
 			}
 			spot->key2 = p->key2;
 		}
-			
+		updateKeys(spot->parent);	
 	}//updateKeys()
 	
 	void insert(int data){
@@ -157,6 +160,9 @@ class Tree{
 		}//if
 		// Case 3: Spot has 3 children
 		// code to come
+		
+		// Update the keys
+		updateKeys(spot);
 	}//insert()
 	
 	void printTree(Node* nodeToPrint, fstream& outstream){
